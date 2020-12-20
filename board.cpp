@@ -1,7 +1,5 @@
 #include <iostream>
 #include <array>
-#include <time.h>
-#include "computerTurn.h"
 
 using namespace std;
 
@@ -15,20 +13,26 @@ const string dashes = "\n=+=+=\n";
 
 int main()
 {
-    srand(time(0));
     int menuNumber = 0;
 
     char array[3][5] = {' ', '|', ' ', '|', ' ',
                         ' ', '|', ' ', '|', ' ',
                         ' ', '|', ' ', '|', ' '};
-    do
+
+    for (int i = 0;; i++)
     {
         boardPrinter(array);
         placeALetter(array, 'X');
+        if (boardFilled == true)
+            break;
+
         boardPrinter(array);
         placeALetter(array, 'O');
+        if (boardFilled == true)
+            break;
+    }
 
-    } while (boardFilled == false);
+    cout << "Final: \n\n";
     boardPrinter(array);
     return 0;
 }
@@ -71,6 +75,7 @@ void placeALetter(char array[][5], char letter)
     boardChecker(array);
 }
 
+// reseets and clears the tic-tac-toe board
 void boardClear(char array[][5])
 {
     for (int i = 0; i < 3; i++)
@@ -83,13 +88,14 @@ void boardClear(char array[][5])
     }
 }
 
+// checks to see if a player has won the game
 void boardChecker(const char array[][5])
 {
-    for (int j = 0; j < 5; j++)
-    {
-        if (!(array[0][j] == ' ') && !(array[1][j] == ' ') && !(array[2][j] == ' '))
-        {
-            
-        }
-    }
+    if (!(array[0][0] == ' ') && !(array[0][2] == ' ') && !(array[0][4] == ' '))
+        if (!(array[1][0] == ' ') && !(array[1][2] == ' ') && !(array[1][4] == ' '))
+            if (!(array[2][0] == ' ') && !(array[2][2] == ' ') && !(array[2][4] == ' '))
+            {
+                cout << "\n\nThe board is filled! Tie!";
+                boardFilled = true;
+            }
 }
