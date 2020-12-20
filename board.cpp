@@ -6,9 +6,11 @@ using namespace std;
 void boardPrinter(const char[][5]);
 void boardClear(char[][5]);
 void placeALetter(char[][5], char);
-void boardChecker(const char[][5]);
+void boardChecker(const char[][5], char);
 
-bool boardFilled = false;
+bool winningMove(const char[][5], char);
+
+bool gameOver = false;
 const string dashes = "\n=+=+=\n";
 
 int main()
@@ -23,12 +25,12 @@ int main()
     {
         boardPrinter(array);
         placeALetter(array, 'X');
-        if (boardFilled == true)
+        if (gameOver == true)
             break;
 
         boardPrinter(array);
         placeALetter(array, 'O');
-        if (boardFilled == true)
+        if (gameOver == true)
             break;
     }
 
@@ -72,7 +74,7 @@ void placeALetter(char array[][5], char letter)
         }
     } while (filled == true);
 
-    boardChecker(array);
+    boardChecker(array, letter);
 }
 
 // reseets and clears the tic-tac-toe board
@@ -89,13 +91,108 @@ void boardClear(char array[][5])
 }
 
 // checks to see if a player has won the game
-void boardChecker(const char array[][5])
+void boardChecker(const char array[][5], char letter)
 {
+    // checks if board is filled
     if (!(array[0][0] == ' ') && !(array[0][2] == ' ') && !(array[0][4] == ' '))
         if (!(array[1][0] == ' ') && !(array[1][2] == ' ') && !(array[1][4] == ' '))
             if (!(array[2][0] == ' ') && !(array[2][2] == ' ') && !(array[2][4] == ' '))
             {
                 cout << "\n\nThe board is filled! Tie!";
-                boardFilled = true;
+                gameOver = true;
             }
+
+    // checks if the latest move won the game
+
+    if (winningMove(array, letter))
+    {
+        cout << "\n"
+             << letter << " won!";
+        gameOver = true;
+    }
+}
+
+bool winningMove(const char array[][5], char letter)
+{
+    /*
+    @|@|@
+    =+=+=
+     | |
+    =+=+=
+     | |
+    */
+    if ((array[0][0] == array[0][2]) && (array[0][2] == array[0][4]) && (array[0][4] == letter))
+        return true;
+
+    /*
+     | | 
+    =+=+=
+    @|@|@
+    =+=+=
+     | |
+    */
+    else if ((array[1][0] == array[1][2]) && (array[1][2] == array[1][4]) && (array[1][4] == letter))
+        return true;
+
+    /*
+     | |
+    =+=+=
+     | |
+    =+=+=
+    @|@|@
+    */
+    else if ((array[2][0] == array[2][2]) && (array[2][2] == array[2][4]) && (array[2][4] == letter))
+        return true;
+
+    /*
+    @| |
+    =+=+=
+    @| |
+    =+=+=
+    @| |
+    */
+    else if ((array[0][0] == array[1][0]) && (array[1][0] == array[2][0]) && (array[2][0] == letter))
+        return true;
+
+    /*
+     |@|
+    =+=+=
+     |@|
+    =+=+=
+     |@|
+    */
+    else if ((array[0][2] == array[1][2]) && (array[1][2] == array[2][2]) && (array[2][2] == letter))
+        return true;
+
+    /*
+     | |@
+    =+=+=
+     | |@
+    =+=+=
+     | |@
+    */
+    else if ((array[0][4] == array[1][4]) && (array[1][4] == array[2][4]) && (array[2][4] == letter))
+        return true;
+
+    /*
+    @| |
+    =+=+=
+     |@|
+    =+=+=
+     | |@
+    */
+    else if ((array[0][0] == array[1][2]) && (array[1][2] == array[2][4]) && (array[2][4] == letter))
+        return true;
+
+    /*
+     | |@
+    =+=+=
+     |@| 
+    =+=+=
+    @| | 
+    */
+    else if ((array[2][0] == array[1][2]) && (array[1][2] == array[0][4]) && (array[0][4] == letter))
+        return true;
+
+    return false;
 }
