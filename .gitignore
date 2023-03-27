@@ -1,0 +1,7 @@
+# Stuff to hide:
+
+# Compiled version of the code
+/board.exe
+
+# VS code quirks
+/.vscode
