@@ -3,6 +3,7 @@
 
 using namespace std;
 
+void coreLoop(char[][5]);
 void boardPrinter(const char[][5]);
 void boardClear(char[][5]);
 void placeALetter(char[][5], char);
@@ -21,22 +22,32 @@ int main()
                         ' ', '|', ' ', '|', ' ',
                         ' ', '|', ' ', '|', ' '};
 
-    for (int i = 0;; i++)
-    {
-        boardPrinter(array);
-        placeALetter(array, 'X');
-        if (gameOver == true)
-            break;
-
-        boardPrinter(array);
-        placeALetter(array, 'O');
-        if (gameOver == true)
-            break;
-    }
+    coreLoop(array);
 
     cout << "Final: \n\n";
     boardPrinter(array);
     return 0;
+}
+
+void coreLoop(char board[][5])
+{
+    bool xTurn = true;
+    while (true)
+    {
+        boardPrinter(board);
+        if (xTurn == true)
+        {
+            placeALetter(board, 'X');
+            xTurn = false;
+        }
+        else
+        {
+            placeALetter(board, 'O');
+            xTurn = true;
+        }
+        if (gameOver == true)
+            break;
+    }
 }
 
 void boardPrinter(const char array[][5])
@@ -125,7 +136,7 @@ bool winningMove(const char array[][5], char letter)
         return true;
 
     /*
-     | | 
+     | |
     =+=+=
     @|@|@
     =+=+=
@@ -187,9 +198,9 @@ bool winningMove(const char array[][5], char letter)
     /*
      | |@
     =+=+=
-     |@| 
+     |@|
     =+=+=
-    @| | 
+    @| |
     */
     else if ((array[2][0] == array[1][2]) && (array[1][2] == array[0][4]) && (array[0][4] == letter))
         return true;
