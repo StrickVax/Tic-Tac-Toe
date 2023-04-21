@@ -8,6 +8,8 @@ void boardPrinter(const char[][5]);
 void boardClear(char[][5]);
 void placeALetter(char[][5], char);
 void boardChecker(const char[][5], char);
+int convertRowCharToInt(char);
+int convertColCharToInt(char);
 
 bool winningMove(const char[][5], char);
 
@@ -65,18 +67,21 @@ void placeALetter(char array[][5], char letter)
     bool filled = false;
     do
     {
-        int positionY = 0, positionX = 0;
-        cout << "\n\nWhere to put " << letter << "? (row (0 / 1 / 2), column (0 / 2 / 4) )";
-        cin >> positionY >> positionX;
+        char positionRow, positionCol;
+        cout << "\n\nWhere to put " << letter << "? ( column (A/B/C), row (1/2/3) )";
+        cin >> positionCol >> positionRow;
 
-        if (!(array[positionY][positionX] == ' '))
+        int row = convertRowCharToInt(positionRow);
+        int col = convertColCharToInt(positionCol);
+
+        if (!(array[row][col] == ' '))
         {
             cout << "ERROR, postion already filled";
             filled = true;
         }
         else
         {
-            array[positionY][positionX] = letter;
+            array[row][col] = letter;
             filled = false;
         }
     } while (filled == true);
@@ -161,4 +166,51 @@ bool winningMove(const char array[][5], char letter)
     }
 
     return false;
+}
+
+int convertRowCharToInt(char rowChar)
+{
+    int rowInt = -1;
+    switch (rowChar)
+    {
+    case '1':
+        rowInt = 0;
+        break;
+    case '2':
+        rowInt = 1;
+        break;
+    case '3':
+        rowInt = 2;
+        break;
+    default:
+        cout << "Invalid row character. Please choose 1, 2, or 3." << endl;
+        break;
+    }
+    return rowInt;
+}
+
+int convertColCharToInt(char colChar)
+{
+    int colInt = -1;
+
+    switch (colChar)
+    {
+    case 'A':
+    case 'a':
+        colInt = 0;
+        break;
+    case 'B':
+    case 'b':
+        colInt = 2;
+        break;
+    case 'C':
+    case 'c':
+        colInt = 4;
+        break;
+    default:
+        cout << "Invalid column character. Please choose A, B, or C." << endl;
+        break;
+    }
+
+    return colInt;
 }
