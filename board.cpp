@@ -100,14 +100,24 @@ void boardClear(char array[][5])
 // checks to see if a player has won the game
 void boardChecker(const char array[][5], char letter)
 {
+    int filledCells = 0;
     // checks if board is filled
-    if (!(array[0][0] == ' ') && !(array[0][2] == ' ') && !(array[0][4] == ' '))
-        if (!(array[1][0] == ' ') && !(array[1][2] == ' ') && !(array[1][4] == ' '))
-            if (!(array[2][0] == ' ') && !(array[2][2] == ' ') && !(array[2][4] == ' '))
+    for (int c = 0; c < 5; c += 2)
+    {
+        for (int r = 0; r < 3; r++)
+        {
+            if (array[c][r] != ' ')
             {
-                cout << "\n\nThe board is filled! Tie!";
-                gameOver = true;
+                filledCells += 1;
             }
+        }
+    }
+
+    if (filledCells == 9)
+    {
+        cout << "\n\nThe board is filled! Tie!\n";
+        gameOver = true;
+    }
 
     // checks if the latest move won the game
 
