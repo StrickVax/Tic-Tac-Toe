@@ -2,6 +2,7 @@
 
 # Compiled version of the code
 /board.exe
+/main.exe
 
 # VS code quirks
 /.vscode

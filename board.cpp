@@ -1,35 +1,10 @@
 #include <iostream>
-#include <array>
-
-using namespace std;
-
-void coreLoop(char[][5]);
-void boardPrinter(const char[][5]);
-void boardClear(char[][5]);
-void placeALetter(char[][5], char);
-void boardChecker(const char[][5], char);
-int convertRowCharToInt(char);
-int convertColCharToInt(char);
-
-bool winningMove(const char[][5], char);
+#include <string>
+#include <vector>
+#include "board.h"
 
 bool gameOver = false;
-const string dashes = "\n=+=+=\n";
-
-int main()
-{
-    int menuNumber = 0;
-
-    char array[3][5] = {' ', '|', ' ', '|', ' ',
-                        ' ', '|', ' ', '|', ' ',
-                        ' ', '|', ' ', '|', ' '};
-
-    coreLoop(array);
-
-    cout << "Final: \n\n";
-    boardPrinter(array);
-    return 0;
-}
+const std::string dashes = "\n=+=+=\n";
 
 void coreLoop(char board[][5])
 {
@@ -50,15 +25,15 @@ void coreLoop(char board[][5])
 
 void boardPrinter(const char array[][5])
 {
-    cout << endl;
+    std::cout << std::endl;
     for (int i = 0; i < 3; i++)
     {
         for (int j = 0; j < 5; j++)
         {
-            cout << array[i][j];
+            std::cout << array[i][j];
         }
         if (i < 2)
-            cout << dashes;
+            std::cout << dashes;
     }
 }
 
@@ -68,15 +43,15 @@ void placeALetter(char array[][5], char letter)
     do
     {
         char positionRow, positionCol;
-        cout << "\n\nWhere to put " << letter << "? ( column (A/B/C), row (1/2/3) )";
-        cin >> positionCol >> positionRow;
+        std::cout << "\n\nWhere to put " << letter << "? ( column (A/B/C), row (1/2/3) )";
+        std::cin >> positionCol >> positionRow;
 
         int row = convertRowCharToInt(positionRow);
         int col = convertColCharToInt(positionCol);
 
         if (!(array[row][col] == ' '))
         {
-            cout << "ERROR, postion already filled";
+            std::cout << "ERROR, postion already filled";
             filled = true;
         }
         else
@@ -120,7 +95,7 @@ void boardChecker(const char array[][5], char letter)
 
     if (filledCells == 9)
     {
-        cout << "\n\nThe board is filled! Tie!\n";
+        std::cout << "\n\nThe board is filled! Tie!\n";
         gameOver = true;
     }
 
@@ -128,8 +103,8 @@ void boardChecker(const char array[][5], char letter)
 
     if (winningMove(array, letter))
     {
-        cout << "\n"
-             << letter << " won!";
+        std::cout << "\n"
+                  << letter << " won!";
         gameOver = true;
     }
 }
@@ -183,7 +158,7 @@ int convertRowCharToInt(char rowChar)
         rowInt = 2;
         break;
     default:
-        cout << "Invalid row character. Please choose 1, 2, or 3." << endl;
+        std::cout << "Invalid row character. Please choose 1, 2, or 3." << std::endl;
         break;
     }
     return rowInt;
@@ -208,9 +183,13 @@ int convertColCharToInt(char colChar)
         colInt = 4;
         break;
     default:
-        cout << "Invalid column character. Please choose A, B, or C." << endl;
+        std::cout << "Invalid column character. Please choose A, B, or C." << std::endl;
         break;
     }
 
     return colInt;
+}
+
+void undoMove(char (&array)[][5])
+{
 }
