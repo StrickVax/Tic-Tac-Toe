@@ -121,85 +121,34 @@ void boardChecker(const char array[][5], char letter)
 
 bool winningMove(const char array[][5], char letter)
 {
-    /*
-    @|@|@
-    =+=+=
-     | |
-    =+=+=
-     | |
-    */
-    if ((array[0][0] == array[0][2]) && (array[0][2] == array[0][4]) && (array[0][4] == letter))
-        return true;
+    // horizontals
+    for (int i = 0; i < 3; i += 1)
+    {
+        if ((array[i][0] == letter) && (array[i][2] == letter) && (array[i][4] == letter))
+        {
+            return true;
+        }
+    }
 
-    /*
-     | |
-    =+=+=
-    @|@|@
-    =+=+=
-     | |
-    */
-    else if ((array[1][0] == array[1][2]) && (array[1][2] == array[1][4]) && (array[1][4] == letter))
-        return true;
+    // verticals
+    for (int i = 0; i < 5; i += 2)
+    {
+        if ((array[0][i] == letter) && (array[1][i] == letter) && (array[2][i] == letter))
+        {
+            return true;
+        }
+    }
 
-    /*
-     | |
-    =+=+=
-     | |
-    =+=+=
-    @|@|@
-    */
-    else if ((array[2][0] == array[2][2]) && (array[2][2] == array[2][4]) && (array[2][4] == letter))
+    // diagonals
+    if ((array[0][0] == letter) && (array[1][2] == letter) && (array[2][4] == letter))
+    {
         return true;
+    }
 
-    /*
-    @| |
-    =+=+=
-    @| |
-    =+=+=
-    @| |
-    */
-    else if ((array[0][0] == array[1][0]) && (array[1][0] == array[2][0]) && (array[2][0] == letter))
+    if ((array[2][0] == letter) && (array[1][2] == letter) && (array[0][4] == letter))
+    {
         return true;
-
-    /*
-     |@|
-    =+=+=
-     |@|
-    =+=+=
-     |@|
-    */
-    else if ((array[0][2] == array[1][2]) && (array[1][2] == array[2][2]) && (array[2][2] == letter))
-        return true;
-
-    /*
-     | |@
-    =+=+=
-     | |@
-    =+=+=
-     | |@
-    */
-    else if ((array[0][4] == array[1][4]) && (array[1][4] == array[2][4]) && (array[2][4] == letter))
-        return true;
-
-    /*
-    @| |
-    =+=+=
-     |@|
-    =+=+=
-     | |@
-    */
-    else if ((array[0][0] == array[1][2]) && (array[1][2] == array[2][4]) && (array[2][4] == letter))
-        return true;
-
-    /*
-     | |@
-    =+=+=
-     |@|
-    =+=+=
-    @| |
-    */
-    else if ((array[2][0] == array[1][2]) && (array[1][2] == array[0][4]) && (array[0][4] == letter))
-        return true;
+    }
 
     return false;
 }
