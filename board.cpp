@@ -31,22 +31,18 @@ int main()
 
 void coreLoop(char board[][5])
 {
-    bool xTurn = true;
+    char currentPlayer = 'X';
+
     while (true)
     {
         boardPrinter(board);
-        if (xTurn == true)
+        placeALetter(board, currentPlayer);
+        // if (currentPlayer == X) is true, assign O. If false, assign X
+        currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
+        if (gameOver)
         {
-            placeALetter(board, 'X');
-            xTurn = false;
-        }
-        else
-        {
-            placeALetter(board, 'O');
-            xTurn = true;
-        }
-        if (gameOver == true)
             break;
+        }
     }
 }
 
